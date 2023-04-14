@@ -3,11 +3,11 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 import openai
-import asyncio
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 openai.api_key = os.getenv("OPENAI_TOKEN")
+CHANNEL_NAME = os.getenv("CHANNEL_NAME")
 
 class MyClient(discord.Client):
     async def on_ready(self):
@@ -15,9 +15,7 @@ class MyClient(discord.Client):
     
     async def on_message(self, message):
         # only allow bot to read message from specific channel
-
-        # get_channel only accepts parameter of int type
-        allowed_channel = str(self.get_channel())
+        allowed_channel = str(self.get_channel(int(CHANNEL_NAME)))
         if message.channel.name != allowed_channel:
             return
 
@@ -29,10 +27,10 @@ class MyClient(discord.Client):
         if "Bots" in [x.name for x in message.author.roles]:
             return
 
-        if len(message.content) < 5:
-            await message.channel.send("Please enter more more words to ask a question. Otherwise {you} is paying $0.0005 for nothing haha")
+        if len(message.content) < 15:
+            await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.0005 for nothing haha")
             return
-
+            
         async with message.channel.typing():
             print(f'Message from {message.author}: {message.content}')
             response = openai.ChatCompletion.create(
