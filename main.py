@@ -29,12 +29,6 @@ class MyClient(discord.Client):
             )
                
         await message.channel.send(response["choices"][0]["message"]["content"])
-    
-    async def typing(ctx):
-        async with ctx.typing():
-            await asyncio.sleep(2)
-        
-        await ctx.send("Done typing")
 
 intents = discord.Intents.default()
 intents.message_content = True
