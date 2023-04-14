@@ -9,11 +9,6 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 openai.api_key = os.getenv("OPENAI_TOKEN")
 CHANNEL_NAME = os.getenv("CHANNEL_NAME")
 
-def log_tokens(user, usage_dict):
-    token = usage_dict["total_tokens"]
-    token += token
-    print(token)
-
 class MyClient(discord.Client):
     async def on_ready(self):
         self.token = 0
