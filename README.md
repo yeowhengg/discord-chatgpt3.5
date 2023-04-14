@@ -5,7 +5,9 @@ A simple bot that takes a message from users to interact with chat gpt's api to 
 Usuage:
 
 git clone https://github.com/yeowhengg/discord-gpt.git
-cd DiscordGPT_Bot
+
+cd discord-gpt
+
 docker compose up --build
 
 rename .env_example to .env and replace the values with yours.
