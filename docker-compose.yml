@@ -1,0 +1,17 @@
+---
+version: '2.1'
+
+services:
+  discord-gpt-bot:
+    container_name: bot
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    command: python3 -u main.py
+    environment:
+      BOT_TOKEN: ${BOT_TOKEN}
+      OPENAI_TOKEN: ${OPENAI_TOKEN}
+      CHANNEL_NAME: ${CHANNEL_NAME}
+    restart: always
+    volumes:
+      - ./app:/app
