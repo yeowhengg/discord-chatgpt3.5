@@ -6,7 +6,7 @@ Usuage:
 
 https://github.com/yeowhengg/discord-chatgpt3.5.git
 
-cd discord-gpt
+cd discord-chatgpt3.5
 
 docker compose up --build
 
