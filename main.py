@@ -43,5 +43,5 @@ class MyClient(discord.Client):
 intents = discord.Intents.default()
 intents.message_content = True
 
-client = MyClient(command_prefix = '/helloworld', intents=intents)
+client = MyClient(intents=intents)
 client.run(BOT_TOKEN)
