@@ -9,9 +9,14 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 openai.api_key = os.getenv("OPENAI_TOKEN")
 CHANNEL_NAME = os.getenv("CHANNEL_NAME")
 
+def log_tokens(user, usage_dict):
+    token = usage_dict["total_tokens"]
+    token += token
+    print(token)
+
 class MyClient(discord.Client):
     async def on_ready(self):
-        print(f'Logged on as {self.user}!')
+        self.token = 0
     
     async def on_message(self, message):
         # only allow bot to read message from specific channel
@@ -32,12 +37,13 @@ class MyClient(discord.Client):
             return
             
         async with message.channel.typing():
-            print(f'Message from {message.author}: {message.content}')
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[{"role": "user", "content": message.content}]
             )
-               
+            self.token += response["usage"]["total_tokens"]
+            print(f"total token used so far: {self.token}")
+
         await message.channel.send(response["choices"][0]["message"]["content"])
 
 intents = discord.Intents.default()
