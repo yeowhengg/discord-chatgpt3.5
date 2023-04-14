@@ -28,7 +28,7 @@ class MyClient(discord.Client):
             return
 
         if len(message.content) < 15:
-            await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.0005 for nothing haha")
+            await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.002 for nothing haha")
             return
             
         async with message.channel.typing():
