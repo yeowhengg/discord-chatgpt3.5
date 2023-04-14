@@ -27,7 +27,7 @@ class MyClient(discord.Client):
         if "Bots" in [x.name for x in message.author.roles]:
             return
 
-        if len(message.content) < 15:
+        if len(message.content) < 15 or message.content.count(" ") < 3:
             await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.002 for nothing haha")
             return
             
@@ -39,7 +39,7 @@ class MyClient(discord.Client):
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
 
-        await message.channel.send(response["choices"][0]["message"]["content"])
+        await message.channel.send(response["choices"][0]["message"]["content"], reference=message)
 
 intents = discord.Intents.default()
 intents.message_content = True
