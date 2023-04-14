@@ -4,7 +4,7 @@ A simple bot that takes a message from users to interact with chat gpt's api to 
 
 Usuage:
 
-[git clone https://github.com/yeowhengg/discord-gpt.git](https://github.com/yeowhengg/discord-chatgpt3.5.git)
+https://github.com/yeowhengg/discord-chatgpt3.5.git
 
 cd discord-gpt
 
