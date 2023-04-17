@@ -33,7 +33,7 @@ class MyClient(discord.Client):
         async with message.channel.typing():
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": message.content}]
+            messages=[{"role": "user", "content": message.content}, {"role": "system", "content": "You are an assistant that has broad knowledge about everything technology. Your knowledge does not only get limited to technology but other general knowledge too. In the event you do not know the answer, do not answer it with 'I am just a language model'. Leave out those sentence and answer what you know. "},]
             )
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
