@@ -11,6 +11,7 @@ CHANNEL_NAME = os.getenv("CHANNEL_NAME")
 class MyClient(discord.Client):
     async def on_ready(self):
         self.token = 0
+        self.memory = {}
     
     async def on_message(self, message):
         # only allow bot to read message from specific channel
@@ -21,6 +22,13 @@ class MyClient(discord.Client):
         # client.user refers to the bot itself
         if message.author == client.user:
             return
+        
+        self.memory.update(
+            {
+                message.author: {
+                    "memory": []
+                }
+            })
 
         # Bots refer to the role name. change it to suit your server needs
         if "Bots" in [x.name for x in message.author.roles]:
@@ -31,9 +39,15 @@ class MyClient(discord.Client):
             return
             
         async with message.channel.typing():
+            self.memory[message.author]["message"].append(message.content)
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": message.content}, {"role": "system", "content": "You are an assistant that has broad knowledge about everything technology. Your knowledge does not only get limited to technology but other general knowledge too. In the event you do not know the answer, do not answer it with 'I am just a language model'. Leave out those sentence and answer what you know. "},]
+            messages=[
+            {"role": "assistant", "content": "".join(self.memory[message.author]["message"])},
+            {"role": "system", "content": "In the event you do not know the answer, do not answer it with 'I am just a language model' or anything similar. Leave out those sentence and answer what you know. "},
+            {"role": "user", "content": message.content}, 
+
+            ]
             )
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
