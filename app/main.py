@@ -47,12 +47,13 @@ class MyClient(discord.Client):
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-            {"role": "assistant", "content": "".join(self.memory[message.author]["memory"])},
             {"role": "system", "content": "In the event you do not know the answer, do not answer it with 'I am just a language model' or anything similar. Leave out those sentence and answer what you know. "},
             {"role": "user", "content": message.content}, 
-
+            {"role": "assistant", "content": "".join(self.memory[message.author]["memory"])},
             ]
             )
+
+            print(self.memory)
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
 
