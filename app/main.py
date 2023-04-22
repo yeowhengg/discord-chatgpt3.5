@@ -26,9 +26,10 @@ class MyClient(discord.Client):
         self.memory.update(
             {
                 message.author: {
-                    "memory": []
+                    "memory": [],
+                    "answer_memory": []
                 }
-            })
+            }) if message.author not in self.memory else None
 
         # Bots refer to the role name. change it to suit your server needs
         if "Bots" in [x.name for x in message.author.roles]:
@@ -50,10 +51,12 @@ class MyClient(discord.Client):
             {"role": "system", "content": "In the event you do not know the answer, do not answer it with 'I am just a language model' or anything similar. Leave out those sentence and answer what you know. "},
             {"role": "user", "content": message.content}, 
             {"role": "assistant", "content": "".join(self.memory[message.author]["memory"])},
+            {"role": "assistant", "content": "".join(self.memory[message.author]["answer_memory"])},
             ]
             )
 
             print(self.memory)
+            self.memory[message.author]["answer_memory"].append(response["choices"][0]["message"]["content"])
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
 
