@@ -37,6 +37,7 @@ class MyClient(discord.Client):
 
         if message.content == "restart":
             self.memory[message.author]["memory"] = []
+            self.memory[message.author]["answer_memory"] = []
 
         if len(message.content) < 15 or message.content.count(" ") < 3:
             await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.002 for nothing haha")
@@ -55,12 +56,12 @@ class MyClient(discord.Client):
             ]
             )
 
-            print(self.memory)
             self.memory[message.author]["answer_memory"].append(response["choices"][0]["message"]["content"])
             self.token += response["usage"]["total_tokens"]
             print(f"total token used so far: {self.token}")
 
         await message.channel.send(response["choices"][0]["message"]["content"], reference=message)
+        await message.channel.send("\nType restart to clear the chat's memory")
 
 intents = discord.Intents.default()
 intents.message_content = True
