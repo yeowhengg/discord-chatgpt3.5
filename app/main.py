@@ -38,6 +38,8 @@ class MyClient(discord.Client):
         if message.content == "restart":
             self.memory[message.author]["memory"] = []
             self.memory[message.author]["answer_memory"] = []
+            await message.channel.send("Cleared")
+            return
 
         if len(message.content) < 15 or message.content.count(" ") < 3:
             await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.002 for nothing haha")
