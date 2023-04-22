@@ -34,16 +34,20 @@ class MyClient(discord.Client):
         if "Bots" in [x.name for x in message.author.roles]:
             return
 
+        if message.content == "restart":
+            self.memory[message.author]["memory"] = []
+
         if len(message.content) < 15 or message.content.count(" ") < 3:
             await message.channel.send("Please enter more more words to ask a question. Otherwise Yeow Heng is paying $0.002 for nothing haha")
             return
-            
+        
+
         async with message.channel.typing():
-            self.memory[message.author]["message"].append(message.content)
+            self.memory[message.author]["memory"].append(message.content)
             response = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
-            {"role": "assistant", "content": "".join(self.memory[message.author]["message"])},
+            {"role": "assistant", "content": "".join(self.memory[message.author]["memory"])},
             {"role": "system", "content": "In the event you do not know the answer, do not answer it with 'I am just a language model' or anything similar. Leave out those sentence and answer what you know. "},
             {"role": "user", "content": message.content}, 
 
